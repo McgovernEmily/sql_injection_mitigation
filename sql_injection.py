@@ -27,29 +27,21 @@ def print_query(label, username, password):
 #Testing 3 Tautology Attacks, 3 union query attacks, 3 additional statement attacks, and 3 comment attacks.
 # Added a label parameter to print the type of attack being tested
 def test_tautology_attacks():
-    print("=" * 60)
-    print("ATTACK INPUT TEST CASES")
-    print("=" * 60)
-    
-    print("Tautology Attacks")
     print_query("Ryan", "admin", "nothing' OR 'x'='x")
     print_query("Emily", "emily_user", "abc' OR 1=1--")
     print_query("Raquel", "raquel_22", "x' OR 'a'='a")
 
 def test_union_query_attacks():
-    print("Union Query Attacks")
     print_query("Ryan", "x' UNION SELECT * FROM admin_accounts--", "irrelevant")
     print_query("Emily", "x' UNION SELECT username, password FROM users--", "pass")
     print_query("Raquel", "x' UNION SELECT card_number, NULL FROMcredit_cards--", "x")
 
 def test_additional_statement_attacks():
-    print("Additional Statement Attacks")
     print_query("Ryan", "ryan", "x'; DROP TABLE users;--")
     print_query("Emily", "emily",  "x'; INSERT INTO users VALUES ('hacker','pw123');--")
     print_query("Raquel", "raquel", "x'; DELETE FROM users WHERE '1'='1';--")
 
 def test_comment_attacks():
-    print("Comment Attacks")
     print_query("Ryan", "admin' --", "doesnt_matter")
     print_query("Emily", "emily'#", "anything_here")
     print_query("Raquel", "raquel_22' --", "ignored")
@@ -110,9 +102,17 @@ def main():
     test_create_query_validation(VALID_TEST_CASES)
 
     # ── Vulnerability Demonstrations ─────────────────────────
+    print("=" * 60)
+    print("VULNERABILITY ATTACK TEST CASES")
+    print("=" * 60)
+    
+    print("Tautology Attacks")
     test_tautology_attacks()
+    print("Union Query Attacks")
     test_union_query_attacks()
+    print("Additional Statement Attacks")
     test_additional_statement_attacks()
+    print("Comment Attacks")
     test_comment_attacks()
 
     # ── Weak Mitigation and strong ──────────────────────────────────────
