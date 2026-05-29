@@ -11,12 +11,6 @@ def create_query(username, password):
 
 # All team members need to create test cases for the function (making sure it's 
 # valid input) should have at least 3 test cases
-VALID_TEST_CASES = [
-    ("ryan_00001",   "pass_word1"), 
-    ("Emily_mcgov",  "Secure_people2"),    
-    ("raquel_22",   "myPass_2007"),    
-]
-
 def test_create_query_validation(test_cases):
     for username, password in test_cases:
         query = create_query(username, password)
@@ -83,6 +77,11 @@ def create_strong_sanitized_query(username, password):
 # This is main function that will run everything
 def main():
     # ── Valid Input ──────────────────────────────────────────
+    VALID_TEST_CASES = [
+    ("ryan_00001",   "pass_word1"), 
+    ("Emily_mcgov",  "Secure_people2"),    
+    ("raquel_22",   "myPass_2007"),    
+    ]
     print("=" * 60)
     print("VALID INPUT TEST CASES")
     print("=" * 60)
