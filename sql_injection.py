@@ -106,8 +106,10 @@ def main():
         print(f"Testing with username: '{user}' and password: '{passw}'")
         print("Weak Sanitized Query:")
         print(create_weak_sanitized_query(user, passw))
+        print()
         print("Strong Sanitized Query:") 
         print(create_strong_sanitized_query(user, passw))
+        print()
         print()
 
 
