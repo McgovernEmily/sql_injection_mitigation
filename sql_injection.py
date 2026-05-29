@@ -11,7 +11,7 @@ def create_query(username, password):
 
 # All team members need to create test cases for the function (making sure it's 
 # valid input) should have at least 3 test cases
-test_cases = [
+VALID_TEST_CASES = [
     ("ryan_00001",   "pass_word1"), 
     ("Emily_mcgov",  "Secure_people2"),    
     ("raquel_22",   "myPass_2007"),    
