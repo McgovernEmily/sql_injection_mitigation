@@ -18,9 +18,6 @@ VALID_TEST_CASES = [
 ]
 
 def test_create_query_validation(test_cases):
-    print("=" * 60)
-    print("VALID INPUT TEST CASES")
-    print("=" * 60)
     for username, password in test_cases:
         query = create_query(username, password)
         print(f"  user='{username}', pass='{password}'")
@@ -86,6 +83,9 @@ def create_strong_sanitized_query(username, password):
 # This is main function that will run everything
 def main():
     # ── Valid Input ──────────────────────────────────────────
+    print("=" * 60)
+    print("VALID INPUT TEST CASES")
+    print("=" * 60)
     test_create_query_validation(VALID_TEST_CASES)
 
     # ── Vulnerability Demonstrations ─────────────────────────
