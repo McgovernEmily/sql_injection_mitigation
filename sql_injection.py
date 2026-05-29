@@ -28,19 +28,39 @@ def test_create_query_validation(test_cases):
         print()
 
 
+
+def print_query(label, username, password):
+    ''' Print the SQL query with a label '''
+    print(f"[{label}]: => {create_query(username, password)}\n")
+
 #Testing 3 Tautology Attacks, 3 union query attacks, 3 additional statement attacks, and 3 comment attacks.
-# Each member should come up with at least one of each type of attack
+# Added a label parameter to print the type of attack being tested
 def test_tautology_attacks():
-    ...
+    print("Tautology Attacks")
+    print("=" * 60)
+    print("ATTACK INPUT TEST CASES")
+    print("=" * 60)
+    print_query("Ryan", "admin", "nothing' OR 'x'='x")
+    print_query("Emily", "emily_user", "abc' OR 1=1--")
+    print_query("Raquel", "raquel_22", "x' OR 'a'='a")
 
 def test_union_query_attacks():
-    ...
+    print("Union Query Attacks")
+    print_query("Ryan", "x' UNION SELECT * FROM admin_accounts--", "irrelevant")
+    print_query("Emily", "x' UNION SELECT username, password FROM users--", "pass")
+    print_query("Raquel", "x' UNION SELECT card_number, NULL FROMcredit_cards--", "x")
 
 def test_additional_statement_attacks():
-    ... 
+    print("Additional Statement Attacks")
+    print_query("Ryan", "ryan", "x'; DROP TABLE users;--")
+    print_query("Emily", "emily",  "x'; INSERT INTO users VALUES ('hacker','pw123');--")
+    print_query("Raquel", "raquel", "x'; DELETE FROM users WHERE '1'='1';--")
 
 def test_comment_attacks():
-    ...
+    print("Comment Attacks")
+    print_query("Ryan", "admin' --", "doesnt_matter")
+    print_query("Emily", "emily'#", "anything_here")
+    print_query("Raquel", "raquel_22' --", "ignored")
 
 # This will be the function that will mitigate the vulnerabilities in the create_query function
 # but keep it weak!
@@ -58,8 +78,12 @@ def create_strong_sanitized_query(username, password):
 
 # This is main function that will run everything
 def main():
-    test_create_query_validation(test_cases)    
-    ...
+    test_create_query_validation(test_cases)   
+ 
+    test_tautology_attacks()
+    test_union_query_attacks()  
+    test_additional_statement_attacks()
+    test_comment_attacks()
 
 if __name__ == "__main__":
     main()
