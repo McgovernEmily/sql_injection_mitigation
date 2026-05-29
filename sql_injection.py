@@ -116,20 +116,46 @@ def main():
     test_comment_attacks()
 
     # ── Weak Mitigation and strong ──────────────────────────────────────
-    print(" ============ THIS IS THE WEAK AND STRONG SANITIZED QUERY TESTS ============")
+    print(" ============ THIS IS THE WEAK AND STRONG SANITIZED QUERY TESTS FOR ATTACKS ============")
     for user, passw in [
-        ("chillydog", "password123"),
-        ("pineapple123", "pw' UNION SELECT 'a','b'"),
-        ("admin", "password123' OR '1'='1"),
-        ("test", "DROP TABLE users; --"),
-        ("testing24", "pw' --")
-    ]:
+        # Tautology attacks
+        ("admin", "nothing' OR 'x'='x"),
+        ("emily_user", "abc' OR 1=1--"),
+        ("raquel_22", "x' OR 'a'='a"),
+
+        # UNION attacks
+        ("x' UNION SELECT * FROM admin_accounts--", "irrelevant"),
+        ("x' UNION SELECT username, password FROM users--", "pass"),
+        ("x' UNION SELECT card_number, NULL FROMcredit_cards--", "x"),
+
+        # Additional statement attacks
+        ("ryan", "x'; DROP TABLE users;--"),
+        ("emily", "x'; INSERT INTO users VALUES ('hacker','pw123');--"),
+        ("raquel", "x'; DELETE FROM users WHERE '1'='1';--"),
+
+        # Comment attacks
+        ("admin' --", "doesnt_matter"),
+        ("emily'#", "anything_here"),
+        ("raquel_22' --", "ignored")
+
+        ]:
+
         print(f"Testing with username: '{user}' and password: '{passw}'")
         print("Weak Sanitized Query:")
         print(create_weak_sanitized_query(user, passw))
         print("STRONG Sanitized Query") 
         print(create_strong_sanitized_query(user, passw))
         print()
+        print()
+
+    print(" ============ VALID INPUTS WITH STRONG SANITIZATION ============")
+
+    for user, passw in VALID_TEST_CASES:
+        print(f"Valid Input: '{user}', '{passw}'")
+        print("Weak Sanitized Query:")
+        print(create_weak_sanitized_query(user, passw))
+        print("Strong Sanitized Query:")
+        print(create_strong_sanitized_query(user, passw))
         print()
 
 
